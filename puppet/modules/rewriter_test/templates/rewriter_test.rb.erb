@@ -12,13 +12,17 @@ require 'json'
 LANGUAGES = %w(de en fr pl nl)
 describe "testing" do
 
-  def app_response(url)
+  def make_request(url)
     r = `curl -s '#{url}'`
     JSON.parse(r) rescue r
   end
 
+  def make_request_for_headers(url)
+    r = `curl -s --head #{url}`
+  end
+
   def check_request_uri(url)
-    r = app_response(url)
+    r = make_request(url)
     remove_port(r["REQUEST_URI"].gsub("http://", ''))
   end
 
@@ -41,19 +45,17 @@ describe "testing" do
 
     describe "shop subdomains" do
       it "works" do
-        #check_request_uri("meko.dawanda.com").must_equal "de.dawanda.com/shop/meko"
-        app_response("meko.dawanda.com").must_match "301 Moved"
-        #app_response("meko.dawanda.com").must_match "de.dawanda.com/shop/meko"
+        make_request("meko.dawanda.com").must_match "301 Moved"
+        make_request_for_headers("meko.dawanda.com").must_match "de.dawanda.com/shop/meko"
       end
     end
 
     describe "www is redirected" do
       it "works" do
-        app_response("www.dawanda.com/shop/Meko/first").must_match "301 Moved"
+        make_request("www.dawanda.com/shop/Meko/first").must_match "301 Moved"
       end
     end
   end
-
 
   describe "path" do
     it "is left untouched" do
