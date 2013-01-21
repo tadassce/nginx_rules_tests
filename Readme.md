@@ -6,12 +6,16 @@
 
     $ git clone git://github.com/dawanda/nginx_rules_tests.git
     $ cd nginx_rules_tests
-    # start vagrant
+
+    # start vagrant, this will produce failed output, expected.
     $ vagrant up
-    # this will produce failed output, expected
+
+    # ssh into your VM
     $ vagrant ssh
+
     # update package sources
     $ apt-get update
+
     # run the tests, they shall pass
     $ nginx_tests
 
