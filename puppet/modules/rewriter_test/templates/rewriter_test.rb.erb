@@ -4,10 +4,9 @@ require 'minitest/autorun'
 require 'json'
 
 
-## test app
-
-# ["REQUEST_PATH", "REQUEST_URI", "REQUEST_METHOD", "REQUEST_PATH", "PATH_INFO"]
-
+# run test-app before!
+# returns as hash:
+#  ["REQUEST_PATH", "REQUEST_URI", "REQUEST_METHOD", "REQUEST_PATH", "PATH_INFO"]
 
 
 LANGUAGES = %w(de en fr pl nl)
@@ -15,7 +14,7 @@ describe "testing" do
 
   def app_response(url)
     r = `curl -s '#{url}'`
-    JSON.parse(r)
+    JSON.parse(r) rescue r
   end
 
   def check_request_uri(url)
@@ -27,21 +26,42 @@ describe "testing" do
     url.gsub(/\:9292/, '')
   end
 
-  it "works" do
-    (1+1).must_equal 2
-  end
+  describe "subdomains" do
+    describe "lang" do
+      LANGUAGES.each do |lng|
+        it "passes language #{lng} through" do
+          check_request_uri("#{lng}.dawanda.com").must_equal "#{lng}.dawanda.com/"
+        end
+      end
 
-  describe "lang" do
-
-    LANGUAGES.each do |lng|
-      it "passes language #{lng} through" do
-        check_request_uri("#{lng}.dawanda.com").must_equal "#{lng}.dawanda.com/"
+      it "defaults to 'de' lang" do
+        check_request_uri("dawanda.com").must_equal "de.dawanda.com/"
       end
     end
 
-    it "defaults to 'de' lang" do
-      check_request_uri("dawanda.com").must_equal "de.dawanda.com/"
+    describe "shop subdomains" do
+      it "works" do
+        check_request_uri("meko.dawanda.com").must_equal "de.dawanda.com/shop/meko"
+      end
     end
 
+    describe "www is redirected" do
+      it "works" do
+        app_response("www.dawanda.com/shop/Meko/first").must_match "301 Moved"
+      end
+    end
+  end
+
+
+  describe "path" do
+    it "is left untouched" do
+      check_request_uri("de.dawanda.com/shop/Meko/first").must_equal "de.dawanda.com/shop/Meko/first"
+    end
+  end
+
+  describe "params" do
+    it "is left untouched" do
+      check_request_uri("de.dawanda.com/shop/Meko/first?a=1").must_equal "de.dawanda.com/shop/Meko/first?a=1"
+    end
   end
 end
