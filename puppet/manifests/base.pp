@@ -15,10 +15,18 @@ file{"/usr/local/bin/runpuppet":
   mode    => 0755
 }
 
-# nginx with configs, we'd like to test
-include nginx
+file{"/usr/local/bin/subdomain_tests":
+  content => "
+    cd /tmp/vagrant-puppet/modules-0/rewriter_test/templates && \
+    runpuppet && \
+    sudo /etc/init.d/nginx restart && \
+    sudo /etc/init.d/dnsmasq restart && \
+    ruby rewriter_test.rb.erb",
+  mode    => 0755
+}
 
-# allow testing dawanda.com with wildchar
-include dnsmasq
+# dnsmasq: testing dawanda.com with wildchar
+# nginx: with configs, we'd like to test
+#
+class {'dnsmasq':} -> class{'nginx':} -> class{"rewriter_test":}
 
-include rewriter_test
