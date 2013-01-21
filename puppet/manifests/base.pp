@@ -7,6 +7,7 @@ File { owner => 0, group => 0, mode => 0644 }
 
 
 package{"tmux": ensure => installed}
+package{"curl": ensure => installed}
 
 # a helper script to run puppet
 file{"/usr/local/bin/runpuppet":
@@ -19,3 +20,5 @@ include nginx
 
 # allow testing dawanda.com with wildchar
 include dnsmasq
+
+include rewriter_test
