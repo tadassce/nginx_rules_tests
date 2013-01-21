@@ -56,12 +56,7 @@ http {
     server_name dawanda.com;
     location / {
       if ($http_host ~ (.*)\.dawanda\.com) {
-        # Yank the subdomain from the regex match above
         set $subdomain $1;
-
-        # Handle the subdomain redirect
-        # rewrite ^ http://$subdomain.abc.com$request_uri permanent;
-        # break;
       }
 
       set $current_language 'de';
