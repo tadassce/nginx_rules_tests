@@ -69,6 +69,19 @@ http {
         break;
       }
 
+      # oh, on explicit matches, must be a shop subdomain
+      if ($subdomain != $current_language){
+        set $domain_is_not_lang  "1";
+      }
+
+      if ($subdomain != ''){
+        set $domain_is_not_lang  "${domain_is_not_lang}1";
+      }
+
+      if ($domain_is_not_lang = '11'){
+        rewrite  ^/(.*)$  http://de.dawanda.com/shop/$subdomain  permanent;
+        break;
+      }
 
       # this is the important part, this will land in env['REQUEST_URI']
       proxy_set_header Host $current_language.dawanda.com:9292;

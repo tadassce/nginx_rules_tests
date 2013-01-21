@@ -41,7 +41,9 @@ describe "testing" do
 
     describe "shop subdomains" do
       it "works" do
-        check_request_uri("meko.dawanda.com").must_equal "de.dawanda.com/shop/meko"
+        #check_request_uri("meko.dawanda.com").must_equal "de.dawanda.com/shop/meko"
+        app_response("meko.dawanda.com").must_match "301 Moved"
+        #app_response("meko.dawanda.com").must_match "de.dawanda.com/shop/meko"
       end
     end
 
