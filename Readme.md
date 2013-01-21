@@ -12,4 +12,4 @@ rackup
 
 # run tests for nginx:
 cd /tmp/vagrant-puppet/modules-0/rewriter_test/templates
-ruby rewriter_test.rb.erb
+runpuppet && ruby rewriter_test.rb.erb
