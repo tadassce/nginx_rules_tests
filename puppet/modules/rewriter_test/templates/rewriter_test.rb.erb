@@ -1,6 +1,13 @@
 require 'open-uri'
 require 'rubygems'
 require 'minitest/autorun'
+require 'json'
+
+
+## test app
+
+# ["REQUEST_PATH", "REQUEST_URI", "REQUEST_METHOD", "REQUEST_PATH", "PATH_INFO"]
+
 
 
 LANGUAGES = %w(de en fr pl nl)
@@ -8,9 +15,12 @@ describe "testing" do
 
   def app_response(url)
     r = `curl -s '#{url}'`
-    #r = open("http://#{url}").read
-    r.gsub!("http://", '')
-    remove_port(r)
+    JSON.parse(r)
+  end
+
+  def check_request_uri(url)
+    r = app_response(url)
+    remove_port(r["REQUEST_URI"].gsub("http://", ''))
   end
 
   def remove_port(url)
@@ -25,7 +35,7 @@ describe "testing" do
 
     LANGUAGES.each do |lng|
       it "passes language #{lng} through" do
-        app_response("#{lng}.dawanda.com").must_equal "#{lng}.dawanda.com/"
+        check_request_uri("#{lng}.dawanda.com").must_equal "#{lng}.dawanda.com/"
       end
     end
 
