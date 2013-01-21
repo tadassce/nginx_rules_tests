@@ -17,11 +17,11 @@ file{"/usr/local/bin/runpuppet":
 
 file{"/usr/local/bin/subdomain_tests":
   content => "
-    cd /tmp/vagrant-puppet/modules-0/rewriter_test/templates && \
+    cd /vagrant/rewrites_tests && \
     runpuppet && \
     sudo /etc/init.d/nginx restart && \
     sudo /etc/init.d/dnsmasq restart && \
-    ruby rewriter_test.rb.erb",
+    ruby rewriter_test.rb",
   mode    => 0755
 }
 
