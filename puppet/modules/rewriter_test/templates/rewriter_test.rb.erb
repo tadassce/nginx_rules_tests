@@ -24,7 +24,7 @@ end
 
 MiniTest::Unit.after_tests() { AppStarter.kill_app }
 
-LANGUAGES = %w(de en fr pl nl)
+LANGUAGES = %w(de en fr pl nl es it)
 describe "testing" do
   before do
     AppStarter.start_app
