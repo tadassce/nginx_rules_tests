@@ -55,7 +55,7 @@ http {
     server_name *.dawanda.com;
     server_name dawanda.com;
     location / {
-      if ($http_host ~ (.*)\.test\.com) {
+      if ($http_host ~ (.*)\.dawanda\.com) {
         # Yank the subdomain from the regex match above
         set $subdomain $1;
 
@@ -64,18 +64,16 @@ http {
         # break;
       }
 
-
       set $current_language 'de';
-      if ($host ~* '^en.*'){ set $current_language 'en'; }
-      if ($host ~* '^fr.*'){ set $current_language 'fr'; }
-      if ($host ~* '^nl.*'){ set $current_language 'nl'; }
-      if ($host ~* '^pl.*'){ set $current_language 'pl'; }
-
-      # www
-      if ($host = 'www.dawanda.com' ) {
+      if ($subdomain = 'en'){ set $current_language $subdomain; }
+      if ($subdomain = 'fr'){ set $current_language $subdomain; }
+      if ($subdomain = 'pl'){ set $current_language $subdomain; }
+      if ($subdomain = 'nl'){ set $current_language $subdomain; }
+      if ($subdomain = 'www'){
         rewrite  ^/(.*)$  http://dawanda.com/$1  permanent;
         break;
       }
+
 
       # this is the important part, this will land in env['REQUEST_URI']
       proxy_set_header Host $current_language.dawanda.com:9292;
