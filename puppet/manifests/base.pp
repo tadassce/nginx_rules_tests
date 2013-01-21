@@ -15,7 +15,7 @@ file{"/usr/local/bin/runpuppet":
   mode    => 0755
 }
 
-file{"/usr/local/bin/subdomain_tests":
+file{"/usr/local/bin/nginx_tests":
   content => "
     cd /vagrant/rewrites_tests && \
     runpuppet && \

@@ -13,14 +13,14 @@
     # update package sources
     $ apt-get update
     # run the tests, they shall pass
-    $ subdomain_tests
+    $ nginx_tests
 
 
 # runpuppet (run  puppet):
     $ runpuppet
 
 # run tests for nginx:
-    $ subdomain_tests
+    $ nginx_tests
 
 
 
@@ -36,4 +36,4 @@
 
   [3] run tests:
 
-        subdomain_tests
+        nginx_tests
