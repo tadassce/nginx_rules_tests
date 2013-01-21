@@ -28,7 +28,7 @@
 
   [1] Add tests  first:
 
-        in puppet/modules/rewriter/templates/rewriter_test.rb.erb
+        in rewrites_tests/rewriter_test.rb
 
   [2] Change the NGINX config to make them pass:
 
