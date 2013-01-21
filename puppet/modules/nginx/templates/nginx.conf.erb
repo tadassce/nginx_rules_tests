@@ -53,6 +53,7 @@ http {
   server {
     listen 80;
     server_name *.dawanda.com;
+    server_name dawanda.com;
     location / {
 
       #rewrite  ^(/download/.*)/media/(.*)\..*$  $1/mp3/$2.mp3  break;

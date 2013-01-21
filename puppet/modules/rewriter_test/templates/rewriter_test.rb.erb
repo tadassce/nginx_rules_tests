@@ -39,5 +39,9 @@ describe "testing" do
       end
     end
 
+    it "defaults to 'de' lang" do
+      check_request_uri("dawanda.com").must_equal "de.dawanda.com/"
+    end
+
   end
 end
