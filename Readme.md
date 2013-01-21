@@ -27,7 +27,10 @@
 # Development:
 
   [1] Add tests  first:
-     in puppet/modules/rewriter/templates/rewriter_test.rb.erb
+        in puppet/modules/rewriter/templates/rewriter_test.rb.erb
 
   [2] Change the NGINX config to make them pass:
-     in puppet/modules/nginx/templates/nginx.conf.erb
+        in puppet/modules/nginx/templates/nginx.conf.erb
+
+  [3] run tests:
+        subdomain_tests

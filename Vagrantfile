@@ -2,7 +2,8 @@
 # vi: set ft=ruby :
 
 Vagrant::Config.run do |config|
-  config.vm.box = "precise64"
+  #config.vm.box = "precise64"
+  config.vm.box = "base"
 
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = "puppet/manifests"
