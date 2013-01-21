@@ -8,11 +8,6 @@ events {
 }
 
 http {
-
-  ##
-  # Basic Settings
-  ##
-
   sendfile on;
   tcp_nopush on;
   tcp_nodelay on;
@@ -48,23 +43,6 @@ http {
   # gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
 
   ##
-  # nginx-naxsi config
-  ##
-  # Uncomment it if you installed nginx-naxsi
-  ##
-
-  #include /etc/nginx/naxsi_core.rules;
-
-  ##
-  # nginx-passenger config
-  ##
-  # Uncomment it if you installed nginx-passenger
-  ##
-
-  #passenger_root /usr;
-  #passenger_ruby /usr/bin/ruby;
-
-  ##
   # Virtual Host Configs
   ##
 
@@ -76,8 +54,20 @@ http {
     listen 80;
     server_name *.dawanda.com;
     location / {
-      proxy_set_header Host localhost:9292;
-      proxy_pass http://localhost:9292;
+
+      #rewrite  ^(/download/.*)/media/(.*)\..*$  $1/mp3/$2.mp3  break;
+      #proxy_pass http://dawanda.com:9292;
+
+
+      set $current_language 'de';
+      if ($host ~* '^en.*'){ set $current_language 'en'; }
+      if ($host ~* '^fr.*'){ set $current_language 'fr'; }
+      if ($host ~* '^nl.*'){ set $current_language 'nl'; }
+      if ($host ~* '^pl.*'){ set $current_language 'pl'; }
+
+      proxy_set_header Host $current_language.dawanda.com:9292;
+      #proxy_pass http://$current_language.dawanda.com:9292;
+      proxy_pass http://de.dawanda.com:9292;
     }
   }
 }

@@ -18,5 +18,8 @@ class nginx::configs{
 }
 
 class nginx::service{
-
+  service{"nginx":
+    ensure    => running,
+    subscribe => Class["nginx::configs"]
+  }
 }

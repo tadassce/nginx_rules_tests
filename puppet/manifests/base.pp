@@ -14,6 +14,7 @@ file { '/etc/motd':
 
 #package{"nginx": ensure => installed}
 package{"dnsmasq": ensure => installed}
+package{"tmux": ensure => installed}
 
 # allow testin dawanda.com with wildchar
 file{"/etc/dnsmasq.d/my_local":
