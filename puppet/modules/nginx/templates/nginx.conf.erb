@@ -71,19 +71,19 @@ http {
         break;
       }
 
-      # nginx has no AND for IFs, have to use $subdomain_is_not_lang to simulate that...
+      # nginx has no AND for IFs, have to use $subdomain_could_be_shop to simulate that...
       # oh, on explicit matches, must be a shop subdomain
       if ($subdomain != $current_language){
-        set $subdomain_is_not_lang  "1";
+        set $subdomain_could_be_shop  "1";
       }
 
       # also check, if we requested with subdomain
       if ($subdomain != ''){
-        set $subdomain_is_not_lang  "${subdomain_is_not_lang}1";
+        set $subdomain_could_be_shop  "${subdomain_could_be_shop}1";
       }
 
       # not a lang subdomain + we have an actual subdomain
-      if ($subdomain_is_not_lang = '11'){
+      if ($subdomain_could_be_shop = '11'){
         rewrite  ^/(.*)$  http://de.dawanda.com/shop/$subdomain  permanent;
         break;
       }
