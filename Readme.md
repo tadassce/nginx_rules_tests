@@ -28,7 +28,7 @@
 
   [1] Add tests  first:
 
-        in rewrites_tests/rewriter_test.rb
+        in nginx_tests/nginx_test.rb
 
   [2] Change the NGINX config to make them pass:
 
