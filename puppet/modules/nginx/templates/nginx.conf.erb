@@ -66,6 +66,12 @@ http {
       if ($host ~* '^nl.*'){ set $current_language 'nl'; }
       if ($host ~* '^pl.*'){ set $current_language 'pl'; }
 
+      # www
+      if ($host = 'www.dawanda.com' ) {
+        rewrite  ^/(.*)$  http://dawanda.com/$1  permanent;
+        break;
+      }
+
       # this is the important part, this will land in env['REQUEST_URI']
       proxy_set_header Host $current_language.dawanda.com:9292;
       #proxy_pass http://$current_language.dawanda.com:9292;
