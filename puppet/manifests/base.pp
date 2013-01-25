@@ -41,6 +41,8 @@ file{"/usr/local/bin/nginx_tests":
   content => "
     cd /vagrant/nginx_tests && \
     runpuppet && \
+    /etc/init.d/nginx restart && \
+    /etc/init.d/dnsmasq restart && \
     ruby nginx_test.rb",
   mode    => 0755
 }
