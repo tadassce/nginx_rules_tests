@@ -3,8 +3,14 @@ group { "puppet":
   ensure => "present",
 }
 
+Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
 File { owner => 0, group => 0, mode => 0644 }
 
+stage { 'first':
+  before => Stage['main'],
+}
+stage { 'last': }
+Stage['main'] -> Stage['last']
 
 package{"tmux": ensure => installed}
 package{"curl": ensure => installed}
@@ -25,8 +31,21 @@ file{"/usr/local/bin/nginx_tests":
   mode    => 0755
 }
 
-# dnsmasq: testing dawanda.com with wildchar
-# nginx: with configs, we'd like to test
-#
-class {'dnsmasq':} -> class{'nginx':} -> class{"rewriter_test":}
+class update_aptget{
+  exec{"apt-get update && touch /tmp/apt-get-updated":
+    unless => "test -e /tmp/apt-get-updated"
+  }
+}
 
+# run this first
+class {'update_aptget':
+  stage => first,
+}
+
+class{'nginx':}
+class{"rewriter_test":}
+
+
+class {'dnsmasq':
+  stage => last,
+}
