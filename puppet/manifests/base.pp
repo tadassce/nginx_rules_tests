@@ -14,6 +14,7 @@ File { owner => 0, group => 0, mode => 0644 }
 
 # we define run-stages, so we can prepare the system
 # to have basic requirements installed
+# http://docs.puppetlabs.com/puppet/2.7/reference/lang_run_stages.html
 
 # first stage should do general OS updating/upgrading
 stage { 'first': }
@@ -45,13 +46,14 @@ file{"/usr/local/bin/nginx_tests":
 }
 
 # brings the system up-to-date after importing it with Vagrant
+# runs only once after booting (checks /tmp/apt-get-update existence)
 class update_aptget{
   exec{"apt-get update && touch /tmp/apt-get-updated":
     unless => "test -e /tmp/apt-get-updated"
   }
 }
 
-# run apt-get update before everything else runs
+# run apt-get update before anything else runs
 class {'update_aptget':
   stage => first,
 }
